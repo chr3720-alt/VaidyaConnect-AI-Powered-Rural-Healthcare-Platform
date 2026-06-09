@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fraunces:ital,wght@0,300;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#0F7B5C;--brand-light:#E8F5F0;--brand-mid:#1A9E78;
+  --accent:#F4845F;--accent-light:#FEF0EB;
+  --gold:#E8A838;--gold-light:#FEF7E8;
+  --ink:#1A1A1A;--ink2:#4A4A4A;--ink3:#8A8A8A;
+  --surface:#FFFFFF;--surface2:#F5F5F3;--surface3:#EEECEA;
+  --border:#E4E2DE;--border2:#D0CEC9;
+  --danger:#E54B4B;--danger-light:#FEF0F0;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --shadow2:0 8px 32px rgba(0,0,0,0.12);
+  --r:14px;--r2:10px;--r3:6px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--surface2);color:var(--ink);min-height:100vh;overflow-x:hidden}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+
+/* ── SPLASH ── */
+#s-splash{background:linear-gradient(160deg,#0A5C43 0%,#1A8A68 55%,#2DB589 100%);align-items:center;justify-content:center;position:relative;overflow:hidden}
+.splash-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.splash-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.08)}
+.splash-r1{width:520px;height:520px;top:-120px;left:-120px}
+.splash-r2{width:340px;height:340px;bottom:-60px;right:-60px}
+.splash-r3{width:200px;height:200px;top:40%;left:60%}
+.splash-center{text-align:center;z-index:1;padding:2rem}
+.splash-logo{width:72px;height:72px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:20px;border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:32px}
+.splash-title{font-family:'Fraunces',serif;font-size:42px;font-weight:300;color:#fff;letter-spacing:-1px;line-height:1.1;margin-bottom:0.4rem}
+.splash-title em{font-style:italic;font-weight:300}
+.splash-sub{font-size:15px;color:rgba(255,255,255,0.7);margin-bottom:3rem;letter-spacing:0.3px}
+.splash-btn{background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.4);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;padding:14px 40px;border-radius:50px;cursor:pointer;letter-spacing:0.2px;transition:all 0.2s;backdrop-filter:blur(10px)}
+.splash-btn:hover{background:rgba(255,255,255,0.28);transform:translateY(-1px)}
+.splash-tagline{margin-top:2rem;font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase}
+
+/* ── LOGIN ── */
+#s-login{background:var(--surface);overflow-y:auto}
+.login-hero{background:linear-gradient(160deg,#0A5C43,#1D9E75);padding:2.5rem 1.5rem 3rem;color:#fff;position:relative;overflow:hidden}
+.login-hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:32px;background:var(--surface);border-radius:32px 32px 0 0}
+.login-hero-tag{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:0.6rem}
+.login-hero-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;line-height:1.25;margin-bottom:0.3rem}
+.login-hero-title em{font-style:italic}
+.login-hero-sub{font-size:13px;color:rgba(255,255,255,0.65)}
+.login-body{padding:1.5rem}
+.login-section-title{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin:1.5rem 0 0.75rem;font-weight:500}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0.5rem}
+.role-card{border:1.5px solid var(--border);border-radius:var(--r2);padding:14px 12px;cursor:pointer;transition:all 0.18s;background:var(--surface)}
+.role-card:hover{border-color:var(--brand);background:var(--brand-light)}
+.role-card.selected{border-color:var(--brand);background:var(--brand-light)}
+.role-card .ri{font-size:22px;margin-bottom:6px}
+.role-card .rl{font-size:13px;font-weight:500;color:var(--ink)}
+.role-card .rs{font-size:11px;color:var(--ink3);margin-top:2px}
+.lang-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.lang-chip{padding:6px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:13px;cursor:pointer;transition:all 0.15s;background:var(--surface);color:var(--ink2)}
+.lang-chip.selected{border-color:var(--brand);background:var(--brand-light);color:var(--brand)}
+.input-group{margin-bottom:1rem}
+.input-label{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:6px}
+.input-field{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r2);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--surface);outline:none;transition:border-color 0.15s}
+.input-field:focus{border-color:var(--brand)}
+.otp-row{display:flex;gap:8px}
+.otp-row .input-field{flex:1}
+.otp-btn{padding:12px 18px;background:var(--brand);color:#fff;border:none;border-radius:var(--r2);font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:all 0.15s}
+.otp-btn:hover{background:var(--brand-mid)}
+.login-btn{width:100%;padding:15px;background:var(--brand);color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:0.5rem;transition:all 0.18s;letter-spacing:0.2px}
+.login-btn:hover{background:var(--brand-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,123,92,0.3)}
+
+/* ── SHARED NAV ── */
+.app-shell{flex:1;display:flex;flex-direction:column;overflow:hidden;max-height:calc(100vh - 0px)}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem 0.75rem;background:var(--surface);border-bottom:1px solid var(--border)}
+.top-bar-left{display:flex;align-items:center;gap:10px}
+.top-avatar{width:36px;height:36px;border-radius:50%;background:var(--brand-light);border:2px solid var(--brand);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--brand)}
+.top-greeting{line-height:1.2}
+.top-greeting .tg1{font-size:13px;color:var(--ink3)}
+.top-greeting .tg2{font-size:15px;font-weight:600;color:var(--ink)}
+.top-actions{display:flex;gap:8px}
+.icon-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:all 0.15s}
+.icon-btn:hover{background:var(--surface2);border-color:var(--border2)}
+.notif-dot{position:relative}
+.notif-dot::after{content:'';position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--accent);border-radius:50%;border:1.5px solid var(--surface)}
+.content-area{flex:1;overflow-y:auto;padding:1rem 1.25rem 5rem}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding:0.5rem 0 0.75rem;z-index:100}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;transition:all 0.15s;border:none;background:none}
+.nav-icon{font-size:22px;transition:transform 0.15s;line-height:1}
+.nav-label{font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:0.2px}
+.nav-item.active .nav-label{color:var(--brand)}
+.nav-item.active .nav-icon{transform:translateY(-2px)}
+
+/* ── HOME ── */
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px 12px;text-align:center}
+.stat-num{font-family:'Fraunces',serif;font-size:28px;font-weight:500;line-height:1;margin-bottom:4px}
+.stat-num.green{color:var(--brand)}
+.stat-num.orange{color:var(--accent)}
+.stat-num.gold{color:var(--gold)}
+.stat-lbl{font-size:11px;color:var(--ink3);font-weight:500}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+.section-title{font-size:14px;font-weight:600;color:var(--ink)}
+.see-all{font-size:12px;color:var(--brand);cursor:pointer;font-weight:500}
+.appt-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px;cursor:pointer;transition:all 0.18s;position:relative;overflow:hidden}
+.appt-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
+.appt-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand);border-radius:2px 0 0 2px}
+.appt-card.urgent::before{background:var(--accent)}
+.appt-card.pending::before{background:var(--gold)}
+.appt-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.appt-doc{display:flex;align-items:center;gap:10px}
+.doc-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.doc-avatar.green{background:var(--brand-light)}
+.doc-avatar.orange{background:var(--accent-light)}
+.doc-avatar.gold{background:var(--gold-light)}
+.doc-name{font-size:14px;font-weight:600;color:var(--ink)}
+.doc-spec{font-size:12px;color:var(--ink3)}
+.status-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:50px}
+.badge-confirmed{background:var(--brand-light);color:var(--brand)}
+.badge-pending{background:var(--gold-light);color:#9A6810}
+.badge-urgent{background:var(--danger-light);color:var(--danger)}
+.appt-meta{display:flex;gap:12px}
+.appt-meta-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--ink3)}
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+.qa-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.18s}
+.qa-item:hover{border-color:var(--brand);background:var(--brand-light);transform:translateY(-2px)}
+.qa-icon{font-size:24px;margin-bottom:4px}
+.qa-lbl{font-size:10px;font-weight:500;color:var(--ink2);line-height:1.3}
+.health-banner{background:linear-gradient(135deg,#0A5C43,#1D9E75);border-radius:var(--r);padding:16px;margin-bottom:1.25rem;color:#fff;display:flex;align-items:center;gap:14px}
+.hb-icon{font-size:36px}
+.hb-text .hb1{font-size:14px;font-weight:600;margin-bottom:2px}
+.hb-text .hb2{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.4}
+
+/* ── CHAT (AI Doctor) ── */
+.chat-header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 1.25rem}
+.chat-doc{display:flex;align-items:center;gap:12px}
+.chat-doc-av{width:44px;height:44px;background:var(--brand-light);border-radius:50%;border:2px solid var(--brand);display:flex;align-items:center;justify-content:center;font-size:22px}
+.online-dot{width:10px;height:10px;background:#22C55E;border-radius:50%;border:2px solid var(--surface);position:absolute;bottom:2px;right:2px}
+.chat-doc-info{flex:1}
+.chat-doc-name{font-size:15px;font-weight:600;color:var(--ink)}
+.chat-doc-status{font-size:12px;color:#22C55E;font-weight:500}
+.chat-body{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;align-items:flex-end;gap:8px;max-width:85%}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.msg-bubble{padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.5;max-width:100%}
+.msg.bot .msg-bubble{background:var(--surface);border:1px solid var(--border);color:var(--ink);border-bottom-left-radius:4px}
+.msg.user .msg-bubble{background:var(--brand);color:#fff;border-bottom-right-radius:4px}
+.msg-av{width:28px;height:28px;border-radius:50%;background:var(--brand-light);border:1.5px solid var(--brand);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.msg-time{font-size:10px;color:var(--ink3);margin-top:4px;text-align:right}
+.typing-indicator{display:flex;align-items:center;gap:5px;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:18px;border-bottom-left-radius:4px;width:fit-content}
+.typing-dot{width:7px;height:7px;background:var(--ink3);border-radius:50%;animation:typing 1.2s infinite}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes typing{0%,60%,100%{opacity:0.3}30%{opacity:1}}
+.chat-suggestions{display:flex;gap:8px;padding:0 1.25rem 0.75rem;overflow-x:auto;scrollbar-width:none}
+.chat-suggestions::-webkit-scrollbar{display:none}
+.sug-chip{white-space:nowrap;padding:7px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:12px;color:var(--ink2);cursor:pointer;background:var(--surface);flex-shrink:0;transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.sug-chip:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-light)}
+.chat-input-area{padding:0.75rem 1.25rem 1rem;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end}
+.chat-input{flex:1;padding:11px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:none;max-height:100px;transition:border-color 0.15s}
+.chat-input:focus{border-color:var(--brand)}
+.send-btn{width:40px;height:40px;background:var(--brand);border:none;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0}
+.send-btn:hover{background:var(--brand-mid);transform:scale(1.05)}
+
+/* ── UPLOAD ── */
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--r);padding:2rem 1rem;text-align:center;cursor:pointer;transition:all 0.18s;margin-bottom:1rem;background:var(--surface)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--brand);background:var(--brand-light)}
+.upload-icon{font-size:40px;margin-bottom:0.75rem}
+.upload-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.upload-sub{font-size:12px;color:var(--ink3)}
+.uploaded-items{margin-bottom:1rem}
+.uploaded-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:8px}
+.ui-icon{font-size:22px}
+.ui-name{flex:1;font-size:13px;font-weight:500;color:var(--ink)}
+.ui-size{font-size:11px;color:var(--ink3)}
+.ui-del{font-size:18px;cursor:pointer;color:var(--ink3);transition:color 0.15s}
+.ui-del:hover{color:var(--danger)}
+.vitals-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.vital-field{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:12px}
+.vital-label{font-size:11px;color:var(--ink3);font-weight:500;margin-bottom:4px}
+.vital-input{width:100%;border:none;outline:none;font-size:16px;font-weight:600;color:var(--ink);font-family:'DM Sans',sans-serif;background:transparent}
+.vital-unit{font-size:11px;color:var(--ink3)}
+.symptom-title{font-size:13px;font-weight:500;color:var(--ink2);margin-bottom:8px}
+.symptom-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem}
+.sym-chip{padding:6px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:12px;cursor:pointer;transition:all 0.15s;background:var(--surface);color:var(--ink2)}
+.sym-chip.active{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.submit-btn{width:100%;padding:15px;background:var(--brand);color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.18s;margin-top:0.5rem}
+.submit-btn:hover{background:var(--brand-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(15,123,92,0.3)}
+
+/* ── CLINICS ── */
+.search-bar{display:flex;gap:10px;margin-bottom:1rem;align-items:center}
+.search-input{flex:1;padding:11px 14px 11px 38px;border:1.5px solid var(--border);border-radius:50px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238A8A8A' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E") no-repeat 14px center;transition:border-color 0.15s}
+.search-input:focus{border-color:var(--brand)}
+.filter-btn{padding:11px 14px;border:1.5px solid var(--border);border-radius:50px;background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;color:var(--ink2);font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap}
+.filter-btn:hover{border-color:var(--brand);color:var(--brand)}
+.clinic-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px;transition:all 0.18s;cursor:pointer}
+.clinic-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
+.clinic-top{display:flex;gap:12px;margin-bottom:10px}
+.clinic-img{width:56px;height:56px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.clinic-info{flex:1}
+.clinic-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.clinic-type{font-size:12px;color:var(--ink3);margin-bottom:4px}
+.clinic-rating{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--ink2)}
+.dist-badge{font-size:11px;font-weight:600;padding:4px 10px;background:var(--brand-light);color:var(--brand);border-radius:50px}
+.clinic-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.clinic-tag{font-size:11px;padding:3px 10px;background:var(--surface2);color:var(--ink3);border-radius:50px}
+.clinic-actions{display:flex;gap:8px}
+.clinic-btn{flex:1;padding:9px;border-radius:50px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;border:none;display:flex;align-items:center;justify-content:center;gap:4px}
+.clinic-btn.call{background:var(--brand-light);color:var(--brand)}
+.clinic-btn.call:hover{background:var(--brand);color:#fff}
+.clinic-btn.book{background:var(--brand);color:#fff}
+.clinic-btn.book:hover{background:var(--brand-mid)}
+
+/* ── HISTORY ── */
+.history-tabs{display:flex;gap:4px;margin-bottom:1rem;background:var(--surface2);border-radius:50px;padding:4px}
+.htab{flex:1;padding:8px 0;border-radius:50px;font-size:13px;font-weight:500;text-align:center;cursor:pointer;transition:all 0.18s;color:var(--ink3);border:none;background:none;font-family:'DM Sans',sans-serif}
+.htab.active{background:var(--surface);color:var(--brand);box-shadow:var(--shadow)}
+.history-item{display:flex;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:10px;cursor:pointer;transition:all 0.18s}
+.history-item:hover{border-color:var(--border2);box-shadow:var(--shadow)}
+.hi-icon-wrap{width:44px;height:44px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.hi-icon-wrap.green{background:var(--brand-light)}
+.hi-icon-wrap.orange{background:var(--accent-light)}
+.hi-icon-wrap.gold{background:var(--gold-light)}
+.hi-content{flex:1;min-width:0}
+.hi-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.hi-sub{font-size:12px;color:var(--ink3);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hi-footer{display:flex;align-items:center;justify-content:space-between}
+.hi-date{font-size:11px;color:var(--ink3)}
+.hi-status{font-size:11px;font-weight:500;padding:2px 10px;border-radius:50px}
+.hi-status.completed{background:var(--brand-light);color:var(--brand)}
+.hi-status.pending{background:var(--gold-light);color:#9A6810}
+.hi-status.reviewed{background:#EEF2FF;color:#4F46E5}
+
+/* ── PROFILE ── */
+.profile-header{background:linear-gradient(160deg,#0A5C43,#1D9E75);padding:2rem 1.25rem 1.5rem;text-align:center;color:#fff}
+.profile-av{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.2);border:3px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 0.75rem}
+.profile-name{font-family:'Fraunces',serif;font-size:22px;font-weight:300;margin-bottom:4px}
+.profile-role{font-size:13px;color:rgba(255,255,255,0.7)}
+.profile-stats{display:flex;justify-content:space-around;margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.2)}
+.ps-item{text-align:center}
+.ps-num{font-size:22px;font-weight:600}
+.ps-lbl{font-size:11px;color:rgba(255,255,255,0.65)}
+.profile-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin:1rem 1.25rem;overflow:hidden}
+.ps-row{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;gap:12px}
+.ps-row:last-child{border-bottom:none}
+.ps-row:hover{background:var(--surface2)}
+.ps-row-icon{font-size:20px;width:32px;text-align:center;flex-shrink:0}
+.ps-row-content{flex:1}
+.ps-row-title{font-size:14px;font-weight:500;color:var(--ink)}
+.ps-row-sub{font-size:12px;color:var(--ink3)}
+.ps-row-arrow{font-size:16px;color:var(--ink3)}
+.ai-insight{background:linear-gradient(135deg,var(--brand-light),#F0FBF6);border:1px solid rgba(15,123,92,0.2);border-radius:var(--r);padding:1rem 1.25rem;margin:0 1.25rem;display:flex;gap:10px}
+.ai-insight-icon{font-size:24px}
+.ai-insight-text .ait1{font-size:13px;font-weight:600;color:var(--brand);margin-bottom:2px}
+.ai-insight-text .ait2{font-size:12px;color:var(--ink2);line-height:1.5}
+.logout-btn{margin:1rem 1.25rem 2rem;width:calc(100% - 2.5rem);padding:14px;background:var(--danger-light);color:var(--danger);border:1.5px solid rgba(229,75,75,0.2);border-radius:50px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.18s}
+.logout-btn:hover{background:var(--danger);color:#fff}
+
+/* ── AI typing animation ── */
+.ai-loading{display:flex;align-items:center;gap:5px;padding:8px 12px}
+.ai-dot{width:6px;height:6px;background:var(--brand);border-radius:50%;animation:aidot 1.2s infinite}
+.ai-dot:nth-child(2){animation-delay:.2s}
+.ai-dot:nth-child(3){animation-delay:.4s}
+@keyframes aidot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+
+/* AI Diagnose Result */
+.ai-result{background:linear-gradient(135deg,#E8F5F0,#F0FBF6);border:1.5px solid rgba(15,123,92,0.25);border-radius:var(--r);padding:14px;margin-top:4px}
+.ai-result-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ai-result-badge{font-size:10px;font-weight:600;padding:3px 8px;background:var(--brand);color:#fff;border-radius:50px;letter-spacing:0.3px}
+.ai-result-content{font-size:13px;color:var(--ink2);line-height:1.6}
+
+/* toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Fade in animation */
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.content-area > *{animation:fadeSlide 0.25s ease both}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SPLASH -->
+<div class="screen active" id="s-splash">
+  <div class="splash-bg">
+    <div class="splash-ring splash-r1"></div>
+    <div class="splash-ring splash-r2"></div>
+    <div class="splash-ring splash-r3"></div>
+  </div>
+  <div class="splash-center">
+    <div class="splash-logo">🩺</div>
+    <div class="splash-title">Vaidya<em>Connect</em></div>
+    <div class="splash-sub">Rural health, reimagined</div>
+    <button class="splash-btn" onclick="go('s-login')">Get Started →</button>
+    <div class="splash-tagline">Trusted by 50,000+ patients across Telangana</div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="screen" id="s-login" style="overflow-y:auto">
+  <div class="login-hero">
+    <div class="login-hero-tag">Welcome back</div>
+    <div class="login-hero-title">Your health,<br><em>always connected</em></div>
+    <div class="login-hero-sub">AI-powered consultations · Multilingual · Rural-first</div>
+  </div>
+  <div class="login-body">
+    <div class="login-section-title">I am a</div>
+    <div class="role-grid">
+      <div class="role-card selected" onclick="selectRole(this)"><div class="ri">🧑‍🤝‍🧑</div><div class="rl">Patient</div><div class="rs">Access care</div></div>
+      <div class="role-card" onclick="selectRole(this)"><div class="ri">👨‍⚕️</div><div class="rl">Doctor</div><div class="rs">Manage cases</div></div>
+      <div class="role-card" onclick="selectRole(this)"><div class="ri">🏥</div><div class="rl">ASHA Worker</div><div class="rs">Community health</div></div>
+      <div class="role-card" onclick="selectRole(this)"><div class="ri">🏢</div><div class="rl">Admin</div><div class="rs">Clinic management</div></div>
+    </div>
+    <div class="login-section-title">Language / भाषा</div>
+    <div class="lang-row">
+      <div class="lang-chip selected" onclick="selectLang(this)">తెలుగు</div>
+      <div class="lang-chip" onclick="selectLang(this)">हिन्दी</div>
+      <div class="lang-chip" onclick="selectLang(this)">English</div>
+      <div class="lang-chip" onclick="selectLang(this)">தமிழ்</div>
+      <div class="lang-chip" onclick="selectLang(this)">ಕನ್ನಡ</div>
+    </div>
+    <div class="login-section-title">Mobile number</div>
+    <div class="input-group">
+      <div class="otp-row">
+        <input class="input-field" type="tel" placeholder="+91 98765 43210" id="phone-input" oninput="checkPhone()">
+        <button class="otp-btn" id="otp-btn" onclick="sendOTP()" disabled>Send OTP</button>
+      </div>
+    </div>
+    <div class="input-group" id="otp-group" style="display:none">
+      <div class="input-label">Enter OTP</div>
+      <input class="input-field" type="text" placeholder="6-digit code" maxlength="6" id="otp-input">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Continue →</button>
+    <p style="text-align:center;font-size:12px;color:var(--ink3);margin-top:1rem">By continuing, you agree to our Terms & Privacy Policy</p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="screen" id="s-app">
+  <div class="app-shell">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <div class="top-avatar">रा</div>
+        <div class="top-greeting">
+          <div class="tg1">Good morning</div>
+          <div class="tg2">Ramesh Sharma</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="icon-btn notif-dot" onclick="showToast('3 new notifications')">🔔</div>
+        <div class="icon-btn" onclick="navTo('profile')">⚙️</div>
+      </div>
+    </div>
+
+    <!-- CONTENT PANELS -->
+    <div class="content-area" id="panel-home">
+      <!-- Health banner -->
+      <div class="health-banner">
+        <div class="hb-icon">✨</div>
+        <div class="hb-text">
+          <div class="hb1">AI Health Check available</div>
+          <div class="hb2">Answer 5 questions to get a personalised health insight powered by Claude AI</div>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-num green">3</div><div class="stat-lbl">Upcoming</div></div>
+        <div class="stat-card"><div class="stat-num orange">1</div><div class="stat-lbl">Pending</div></div>
+        <div class="stat-card"><div class="stat-num gold">12</div><div class="stat-lbl">Total visits</div></div>
+      </div>
+      <!-- Quick actions -->
+      <div class="section-header"><div class="section-title">Quick access</div></div>
+      <div class="quick-actions">
+        <div class="qa-item" onclick="navTo('chat')"><div class="qa-icon">🤖</div><div class="qa-lbl">AI Doctor</div></div>
+        <div class="qa-item" onclick="navTo('upload')"><div class="qa-icon">📤</div><div class="qa-lbl">Upload Case</div></div>
+        <div class="qa-item" onclick="navTo('clinics')"><div class="qa-icon">🏥</div><div class="qa-lbl">Find Clinic</div></div>
+        <div class="qa-item" onclick="navTo('history')"><div class="qa-icon">📋</div><div class="qa-lbl">Records</div></div>
+      </div>
+      <!-- Appointments -->
+      <div class="section-header"><div class="section-title">Upcoming appointments</div><div class="see-all">See all</div></div>
+      <div class="appt-card" onclick="showToast('Opening appointment details...')">
+        <div class="appt-top">
+          <div class="appt-doc">
+            <div class="doc-avatar green">👨‍⚕️</div>
+            <div><div class="doc-name">Dr. Venkata Rao</div><div class="doc-spec">General Medicine</div></div>
+          </div>
+          <div class="status-badge badge-confirmed">Confirmed</div>
+        </div>
+        <div class="appt-meta">
+          <div class="appt-meta-item">📅 Today, 3:30 PM</div>
+          <div class="appt-meta-item">📍 PHC Warangal</div>
+        </div>
+      </div>
+      <div class="appt-card urgent" onclick="showToast('Opening appointment details...')">
+        <div class="appt-top">
+          <div class="appt-doc">
+            <div class="doc-avatar orange">👩‍⚕️</div>
+            <div><div class="doc-name">Dr. Priya Reddy</div><div class="doc-spec">Pediatrician</div></div>
+          </div>
+          <div class="status-badge badge-urgent">Urgent</div>
+        </div>
+        <div class="appt-meta">
+          <div class="appt-meta-item">📅 Tomorrow, 10:00 AM</div>
+          <div class="appt-meta-item">📍 RIMS Nizamabad</div>
+        </div>
+      </div>
+      <div class="appt-card pending" onclick="showToast('Opening appointment details...')">
+        <div class="appt-top">
+          <div class="appt-doc">
+            <div class="doc-avatar gold">🧑‍⚕️</div>
+            <div><div class="doc-name">Dr. Arun Kumar</div><div class="doc-spec">Cardiologist</div></div>
+          </div>
+          <div class="status-badge badge-pending">Awaiting</div>
+        </div>
+        <div class="appt-meta">
+          <div class="appt-meta-item">📅 Thu, 2:00 PM</div>
+          <div class="appt-meta-item">📍 Telemedicine</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI CHAT PANEL -->
+    <div class="content-area" id="panel-chat" style="display:none;padding:0;flex-direction:column">
+      <div class="chat-header">
+        <div class="chat-doc">
+          <div style="position:relative">
+            <div class="chat-doc-av">🤖</div>
+            <div class="online-dot"></div>
+          </div>
+          <div class="chat-doc-info">
+            <div class="chat-doc-name">VaidyaAI Assistant</div>
+            <div class="chat-doc-status">● Online · Powered by Claude AI</div>
+          </div>
+          <div class="icon-btn" onclick="showToast('Call feature coming soon')">📞</div>
+        </div>
+      </div>
+      <div class="chat-body" id="chat-messages">
+        <div class="msg bot">
+          <div class="msg-av">🤖</div>
+          <div>
+            <div class="msg-bubble">నమస్కారం! నేను VaidyaAI. మీ ఆరోగ్య సమస్యలు share చేయండి — నేను సహాయం చేస్తాను.<br><br><em style="opacity:0.7;font-size:12px">Hello! I'm VaidyaAI. Share your health concerns and I'll help guide you.</em></div>
+            <div class="msg-time">Now</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-suggestions" id="chat-suggestions">
+        <div class="sug-chip" onclick="sendSuggestion(this)">I have a fever</div>
+        <div class="sug-chip" onclick="sendSuggestion(this)">Chest pain advice</div>
+        <div class="sug-chip" onclick="sendSuggestion(this)">Child vaccination schedule</div>
+        <div class="sug-chip" onclick="sendSuggestion(this)">Diabetes management</div>
+        <div class="sug-chip" onclick="sendSuggestion(this)">Medicine side effects</div>
+      </div>
+      <div class="chat-input-area">
+        <textarea class="chat-input" id="chat-in" rows="1" placeholder="Describe your symptoms..." onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+
+    <!-- UPLOAD PANEL -->
+    <div class="content-area" id="panel-upload" style="display:none">
+      <div style="margin-bottom:1rem"><div style="font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--ink)">Upload <em>Case</em></div><div style="font-size:13px;color:var(--ink3);margin-top:2px">Share reports, scans & vitals with your doctor</div></div>
+      <div class="upload-zone" id="upload-zone" onclick="fakeUpload()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')">
+        <div class="upload-icon">📁</div>
+        <div class="upload-title">Tap to upload files</div>
+        <div class="upload-sub">X-rays, Lab reports, Prescriptions · Max 20MB</div>
+      </div>
+      <div class="uploaded-items" id="uploaded-items"></div>
+      <div class="section-header"><div class="section-title">Current vitals</div></div>
+      <div class="vitals-grid">
+        <div class="vital-field"><div class="vital-label">Blood Pressure</div><input class="vital-input" value="120" /><div class="vital-unit">/ 80 mmHg</div></div>
+        <div class="vital-field"><div class="vital-label">Temperature</div><input class="vital-input" value="98.6" /><div class="vital-unit">°F</div></div>
+        <div class="vital-field"><div class="vital-label">Heart Rate</div><input class="vital-input" value="72" /><div class="vital-unit">bpm</div></div>
+        <div class="vital-field"><div class="vital-label">SpO₂</div><input class="vital-input" value="98" /><div class="vital-unit">%</div></div>
+      </div>
+      <div class="symptom-title">Select symptoms</div>
+      <div class="symptom-chips">
+        <div class="sym-chip" onclick="toggleSym(this)">🤒 Fever</div>
+        <div class="sym-chip" onclick="toggleSym(this)">😮‍💨 Breathlessness</div>
+        <div class="sym-chip" onclick="toggleSym(this)">🤕 Headache</div>
+        <div class="sym-chip" onclick="toggleSym(this)">😴 Fatigue</div>
+        <div class="sym-chip" onclick="toggleSym(this)">🤢 Nausea</div>
+        <div class="sym-chip active" onclick="toggleSym(this)">💔 Chest pain</div>
+        <div class="sym-chip" onclick="toggleSym(this)">🦵 Body ache</div>
+        <div class="sym-chip" onclick="toggleSym(this)">👁️ Vision blur</div>
+      </div>
+      <div class="input-group">
+        <div class="input-label">Additional notes for doctor</div>
+        <textarea class="input-field" rows="3" placeholder="Describe when symptoms started, severity, any medication taken..." style="resize:vertical;border-radius:12px"></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitCase()">📤 Submit to Doctor</button>
+    </div>
+
+    <!-- CLINICS PANEL -->
+    <div class="content-area" id="panel-clinics" style="display:none">
+      <div style="margin-bottom:1rem"><div style="font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--ink)">Nearby <em>Clinics</em></div><div style="font-size:13px;color:var(--ink3);margin-top:2px">Warangal district · 14 facilities found</div></div>
+      <div class="search-bar">
+        <input class="search-input" placeholder="Search clinics, doctors..." oninput="filterClinics(this.value)">
+        <button class="filter-btn">⚙ Filter</button>
+      </div>
+      <div id="clinics-list">
+        <div class="clinic-card">
+          <div class="clinic-top">
+            <div class="clinic-img" style="background:#E8F5F0">🏥</div>
+            <div class="clinic-info">
+              <div class="clinic-name">PHC Warangal Urban</div>
+              <div class="clinic-type">Primary Health Centre · Govt.</div>
+              <div class="clinic-rating">⭐ 4.2 <span style="color:var(--ink3);font-weight:400">(128 reviews)</span></div>
+            </div>
+            <div class="dist-badge">0.8 km</div>
+          </div>
+          <div class="clinic-tags"><div class="clinic-tag">Open now</div><div class="clinic-tag">Free OPD</div><div class="clinic-tag">Ambulance</div></div>
+          <div class="clinic-actions"><button class="clinic-btn call" onclick="showToast('Calling PHC Warangal...')">📞 Call</button><button class="clinic-btn book" onclick="showToast('Booking appointment...')">📅 Book</button></div>
+        </div>
+        <div class="clinic-card">
+          <div class="clinic-top">
+            <div class="clinic-img" style="background:#FEF7E8">🏨</div>
+            <div class="clinic-info">
+              <div class="clinic-name">RIMS Hospital</div>
+              <div class="clinic-type">Govt. Medical College · Multi-specialty</div>
+              <div class="clinic-rating">⭐ 4.5 <span style="color:var(--ink3);font-weight:400">(412 reviews)</span></div>
+            </div>
+            <div class="dist-badge">2.1 km</div>
+          </div>
+          <div class="clinic-tags"><div class="clinic-tag">24/7</div><div class="clinic-tag">Emergency</div><div class="clinic-tag">ICU</div><div class="clinic-tag">Blood bank</div></div>
+          <div class="clinic-actions"><button class="clinic-btn call" onclick="showToast('Calling RIMS...')">📞 Call</button><button class="clinic-btn book" onclick="showToast('Booking appointment...')">📅 Book</button></div>
+        </div>
+        <div class="clinic-card">
+          <div class="clinic-top">
+            <div class="clinic-img" style="background:#FEF0EB">👩‍⚕️</div>
+            <div class="clinic-info">
+              <div class="clinic-name">Dr. Padmaja Child Clinic</div>
+              <div class="clinic-type">Paediatric Specialist · Private</div>
+              <div class="clinic-rating">⭐ 4.8 <span style="color:var(--ink3);font-weight:400">(89 reviews)</span></div>
+            </div>
+            <div class="dist-badge">3.4 km</div>
+          </div>
+          <div class="clinic-tags"><div class="clinic-tag">Vaccination</div><div class="clinic-tag">Neonatal care</div></div>
+          <div class="clinic-actions"><button class="clinic-btn call" onclick="showToast('Calling Dr. Padmaja...')">📞 Call</button><button class="clinic-btn book" onclick="showToast('Booking appointment...')">📅 Book</button></div>
+        </div>
+        <div class="clinic-card">
+          <div class="clinic-top">
+            <div class="clinic-img" style="background:#EEF2FF">💊</div>
+            <div class="clinic-info">
+              <div class="clinic-name">Arogyam Pharmacy</div>
+              <div class="clinic-type">Pharmacy · Jan Aushadhi</div>
+              <div class="clinic-rating">⭐ 4.0 <span style="color:var(--ink3);font-weight:400">(54 reviews)</span></div>
+            </div>
+            <div class="dist-badge">0.3 km</div>
+          </div>
+          <div class="clinic-tags"><div class="clinic-tag">Generic medicines</div><div class="clinic-tag">Home delivery</div></div>
+          <div class="clinic-actions"><button class="clinic-btn call" onclick="showToast('Calling pharmacy...')">📞 Call</button><button class="clinic-btn book" onclick="showToast('Getting directions...')">📍 Directions</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY PANEL -->
+    <div class="content-area" id="panel-history" style="display:none">
+      <div style="margin-bottom:1rem"><div style="font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--ink)">Health <em>Records</em></div><div style="font-size:13px;color:var(--ink3);margin-top:2px">All your medical history in one place</div></div>
+      <div class="history-tabs">
+        <button class="htab active" onclick="switchTab(this,'all')">All</button>
+        <button class="htab" onclick="switchTab(this,'consultations')">Consultations</button>
+        <button class="htab" onclick="switchTab(this,'reports')">Reports</button>
+        <button class="htab" onclick="switchTab(this,'prescriptions')">Rx</button>
+      </div>
+      <div id="history-list">
+        <div class="history-item" onclick="showToast('Opening record...')">
+          <div class="hi-icon-wrap green">🩺</div>
+          <div class="hi-content">
+            <div class="hi-title">Consultation — Dr. Venkata Rao</div>
+            <div class="hi-sub">General checkup · Fever, body ache · Prescribed Paracetamol</div>
+            <div class="hi-footer"><div class="hi-date">📅 2 June 2026</div><div class="hi-status completed">Completed</div></div>
+          </div>
+        </div>
+        <div class="history-item" onclick="showToast('Opening record...')">
+          <div class="hi-icon-wrap gold">🔬</div>
+          <div class="hi-content">
+            <div class="hi-title">Lab Report — CBC Test</div>
+            <div class="hi-sub">Complete Blood Count · Kamineni Labs Warangal</div>
+            <div class="hi-footer"><div class="hi-date">📅 28 May 2026</div><div class="hi-status reviewed">Reviewed</div></div>
+          </div>
+        </div>
+        <div class="history-item" onclick="showToast('Opening record...')">
+          <div class="hi-icon-wrap orange">💊</div>
+          <div class="hi-content">
+            <div class="hi-title">Prescription — Dr. Priya Reddy</div>
+            <div class="hi-sub">Paediatric consultation · Child vaccination record</div>
+            <div class="hi-footer"><div class="hi-date">📅 20 May 2026</div><div class="hi-status completed">Filled</div></div>
+          </div>
+        </div>
+        <div class="history-item" onclick="showToast('Opening record...')">
+          <div class="hi-icon-wrap green">🤖</div>
+          <div class="hi-content">
+            <div class="hi-title">AI Health Screening</div>
+            <div class="hi-sub">VaidyaAI · Respiratory assessment · Low risk</div>
+            <div class="hi-footer"><div class="hi-date">📅 15 May 2026</div><div class="hi-status reviewed">AI reviewed</div></div>
+          </div>
+        </div>
+        <div class="history-item" onclick="showToast('Opening record...')">
+          <div class="hi-icon-wrap gold">🩻</div>
+          <div class="hi-content">
+            <div class="hi-title">X-Ray Report — Chest</div>
+            <div class="hi-sub">RIMS Hospital · Normal findings · No abnormality</div>
+            <div class="hi-footer"><div class="hi-date">📅 10 May 2026</div><div class="hi-status completed">Normal</div></div>
+          </div>
+        </div>
+        <div class="history-item" onclick="showToast('Opening record...')">
+          <div class="hi-icon-wrap orange">📊</div>
+          <div class="hi-content">
+            <div class="hi-title">HbA1c Test</div>
+            <div class="hi-sub">Diabetes screening · Result: 5.7% (Pre-diabetic range)</div>
+            <div class="hi-footer"><div class="hi-date">📅 2 May 2026</div><div class="hi-status pending">Follow up needed</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE PANEL -->
+    <div id="panel-profile" style="display:none;overflow-y:auto;flex:1">
+      <div class="profile-header">
+        <div class="profile-av">👤</div>
+        <div class="profile-name">Ramesh Sharma</div>
+        <div class="profile-role">Patient · ID: VDY-2024-04821</div>
+        <div class="profile-stats">
+          <div class="ps-item"><div class="ps-num">12</div><div class="ps-lbl">Visits</div></div>
+          <div class="ps-item"><div class="ps-num">8</div><div class="ps-lbl">Records</div></div>
+          <div class="ps-item"><div class="ps-num">3</div><div class="ps-lbl">Doctors</div></div>
+        </div>
+      </div>
+      <div style="padding:1rem 1.25rem 0.5rem">
+        <div class="ai-insight">
+          <div class="ai-insight-icon">🤖</div>
+          <div class="ai-insight-text">
+            <div class="ait1">AI Health Insight</div>
+            <div class="ait2">Based on your recent HbA1c result, consider reducing sugar intake and increasing daily walking to 30 mins. Schedule a follow-up within 3 months.</div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-section">
+        <div class="ps-row" onclick="showToast('Opening personal details...')"><div class="ps-row-icon">👤</div><div class="ps-row-content"><div class="ps-row-title">Personal Details</div><div class="ps-row-sub">Name, age, blood group, Aadhaar</div></div><div class="ps-row-arrow">›</div></div>
+        <div class="ps-row" onclick="showToast('Opening health history...')"><div class="ps-row-icon">🩺</div><div class="ps-row-content"><div class="ps-row-title">Medical History</div><div class="ps-row-sub">Conditions, allergies, surgeries</div></div><div class="ps-row-arrow">›</div></div>
+        <div class="ps-row" onclick="showToast('Opening insurance...')"><div class="ps-row-icon">🛡️</div><div class="ps-row-content"><div class="ps-row-title">Insurance & Ayushman</div><div class="ps-row-sub">Card no. · ₹5L coverage active</div></div><div class="ps-row-arrow">›</div></div>
+        <div class="ps-row" onclick="showToast('Opening emergency contacts...')"><div class="ps-row-icon">📞</div><div class="ps-row-content"><div class="ps-row-title">Emergency Contacts</div><div class="ps-row-sub">2 contacts added</div></div><div class="ps-row-arrow">›</div></div>
+      </div>
+      <div class="profile-section">
+        <div class="ps-row" onclick="showToast('Opening notifications...')"><div class="ps-row-icon">🔔</div><div class="ps-row-content"><div class="ps-row-title">Notifications</div><div class="ps-row-sub">Reminders, alerts, reports</div></div><div class="ps-row-arrow">›</div></div>
+        <div class="ps-row" onclick="showToast('Opening language settings...')"><div class="ps-row-icon">🌐</div><div class="ps-row-content"><div class="ps-row-title">Language</div><div class="ps-row-sub">తెలుగు (Telugu)</div></div><div class="ps-row-arrow">›</div></div>
+        <div class="ps-row" onclick="showToast('Opening privacy settings...')"><div class="ps-row-icon">🔒</div><div class="ps-row-content"><div class="ps-row-title">Privacy & Data</div><div class="ps-row-sub">Manage your health data sharing</div></div><div class="ps-row-arrow">›</div></div>
+      </div>
+      <button class="logout-btn" onclick="go('s-login')">Sign out</button>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+      <button class="nav-item active" id="nav-home" onclick="navTo('home')"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></button>
+      <button class="nav-item" id="nav-chat" onclick="navTo('chat')"><div class="nav-icon">🤖</div><div class="nav-label">AI Doctor</div></button>
+      <button class="nav-item" id="nav-upload" onclick="navTo('upload')"><div class="nav-icon">📤</div><div class="nav-label">Upload</div></button>
+      <button class="nav-item" id="nav-clinics" onclick="navTo('clinics')"><div class="nav-icon">🏥</div><div class="nav-label">Clinics</div></button>
+      <button class="nav-item" id="nav-history" onclick="navTo('history')"><div class="nav-icon">📋</div><div class="nav-label">Records</div></button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Navigation ──
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function navTo(tab) {
+  ['home','chat','upload','clinics','history','profile'].forEach(t => {
+    const p = document.getElementById('panel-'+t);
+    if(p) p.style.display = 'none';
+    const n = document.getElementById('nav-'+t);
+    if(n) n.classList.remove('active');
+  });
+  const panel = document.getElementById('panel-'+tab);
+  if(panel){
+    panel.style.display = tab === 'chat' ? 'flex' : 'block';
+    panel.style.flexDirection = tab === 'chat' ? 'column' : '';
+    if(tab !== 'profile') panel.style.overflowY = 'auto';
+  }
+  const navBtn = document.getElementById('nav-'+tab);
+  if(navBtn) navBtn.classList.add('active');
+  if(tab === 'profile') {
+    document.getElementById('panel-profile').style.display = 'block';
+  }
+}
+
+// ── Login ──
+function selectRole(el) {
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function selectLang(el) {
+  document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function checkPhone() {
+  const v = document.getElementById('phone-input').value.replace(/\D/g,'');
+  document.getElementById('otp-btn').disabled = v.length < 10;
+}
+function sendOTP() {
+  document.getElementById('otp-group').style.display = 'block';
+  document.getElementById('otp-btn').textContent = 'Resend';
+  showToast('OTP sent to your number!');
+}
+function doLogin() {
+  go('s-app');
+  navTo('home');
+}
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Upload ──
+const fakeFiles = [
+  {icon:'🩻', name:'chest_xray_june2026.jpg', size:'2.4 MB'},
+  {icon:'🔬', name:'CBC_report_28may.pdf', size:'1.1 MB'},
+  {icon:'📊', name:'hba1c_test_result.pdf', size:'0.8 MB'},
+];
+let uploadIdx = 0;
+function fakeUpload() {
+  if(uploadIdx >= fakeFiles.length) { showToast('All files uploaded!'); return; }
+  const f = fakeFiles[uploadIdx++];
+  const el = document.createElement('div');
+  el.className = 'uploaded-item';
+  el.innerHTML = `<div class="ui-icon">${f.icon}</div><div class="ui-name">${f.name}</div><div class="ui-size">${f.size}</div><div class="ui-del" onclick="this.closest('.uploaded-item').remove()">✕</div>`;
+  document.getElementById('uploaded-items').appendChild(el);
+  showToast(`${f.name} uploaded`);
+}
+function toggleSym(el) { el.classList.toggle('active'); }
+function submitCase() { showToast('Case submitted to Dr. Venkata Rao ✓'); }
+
+// ── History tabs ──
+function switchTab(el, tab) {
+  document.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  showToast(`Showing ${tab === 'all' ? 'all records' : tab}`);
+}
+
+// ── AI Chat with Claude API ──
+let chatLoading = false;
+const chatHistory = [];
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+
+function handleKey(e) {
+  if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function sendSuggestion(el) {
+  document.getElementById('chat-in').value = el.textContent;
+  sendMessage();
+}
+
+function addMessage(role, html, isHTML) {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = `msg ${role}`;
+  const av = document.createElement('div');
+  av.className = 'msg-av';
+  av.textContent = role === 'bot' ? '🤖' : '👤';
+  const content = document.createElement('div');
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  if(isHTML) bubble.innerHTML = html; else bubble.textContent = html;
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  content.appendChild(bubble);
+  content.appendChild(time);
+  if(role === 'bot') { wrap.appendChild(av); wrap.appendChild(content); }
+  else { wrap.appendChild(content); wrap.appendChild(av); }
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+  return bubble;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg bot';
+  wrap.id = 'typing-wrap';
+  const av = document.createElement('div');
+  av.className = 'msg-av';
+  av.textContent = '🤖';
+  const ind = document.createElement('div');
+  ind.className = 'typing-indicator';
+  ind.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  wrap.appendChild(av);
+  wrap.appendChild(ind);
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-wrap');
+  if(t) t.remove();
+}
+
+async function sendMessage() {
+  if(chatLoading) return;
+  const inp = document.getElementById('chat-in');
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = '';
+  inp.style.height = 'auto';
+  addMessage('user', text, false);
+  chatHistory.push({role:'user', content: text});
+  chatLoading = true;
+  showTyping();
+  try {
+    const systemPrompt = `You are VaidyaAI, a compassionate rural health assistant for patients in Telangana, India. 
+You help patients understand symptoms, guide them to appropriate care, explain medical terms simply, 
+and provide basic health education. Always be warm, empathetic, and culturally sensitive.
+Keep responses concise (2-4 sentences for simple queries, slightly longer for complex ones).
+IMPORTANT: Always recommend consulting a real doctor for serious symptoms. 
+If symptoms suggest emergency (chest pain, severe breathlessness, high fever in child), 
+immediately suggest going to the nearest PHC or hospital.
+Occasionally add a phrase in Telugu script when it feels natural and helpful.`;
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: chatHistory
+      })
+    });
+    const data = await resp.json();
+    removeTyping();
+    const reply = data.content?.[0]?.text || 'I apologise, there was a connection issue. Please try again.';
+    chatHistory.push({role:'assistant', content: reply});
+    addMessage('bot', reply, false);
+  } catch(err) {
+    removeTyping();
+    addMessage('bot', 'Connection issue — please check your network and try again. For emergencies, call 108.', false);
+  }
+  chatLoading = false;
+  document.getElementById('chat-messages').scrollTop = 99999;
+}
+
+// Clinic search filter
+function filterClinics(q) {
+  const q2 = q.toLowerCase();
+  document.querySelectorAll('.clinic-card').forEach(c => {
+    const n = c.querySelector('.clinic-name').textContent.toLowerCase();
+    c.style.display = n.includes(q2) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
